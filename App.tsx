@@ -4,42 +4,41 @@
  *
  * @format
  */
+import { createNativeStackNavigator } from '@react-navigation/native-stack';
+import SignupScreen from './app/screen/SignupScreen';
+import { NavigationContainer } from '@react-navigation/native';
+import SignupSuccessScreen from './app/screen/SignupSuccessScreen';
+import LoginScreen from './app/screen/LoginScreen';
+import NewsFeedScreen from './app/screen/NewsFeedScreen';
+import NewsScreen from './app/screen/NewsScreen';
+import { NewsArticle } from './app/api/news/types';
 
-import { NewAppScreen } from '@react-native/new-app-screen';
-import { StatusBar, StyleSheet, useColorScheme, View } from 'react-native';
-import {
-  SafeAreaProvider,
-  useSafeAreaInsets,
-} from 'react-native-safe-area-context';
-
+const Stack = createNativeStackNavigator()
+export type RootStackParamList = {
+  Signup: undefined;
+  Login: undefined;
+  SignupSuccess: undefined;
+  LoginScreen: undefined;
+  NewsFeed: undefined;
+  News: { article: NewsArticle };
+};
 function App() {
-  const isDarkMode = useColorScheme() === 'dark';
 
   return (
-    <SafeAreaProvider>
-      <StatusBar barStyle={isDarkMode ? 'light-content' : 'dark-content'} />
-      <AppContent />
-    </SafeAreaProvider>
+    <NavigationContainer>
+      <Stack.Navigator screenOptions={{ headerShown: false }}>
+        <Stack.Screen name="Signup" component={SignupScreen} />
+        <Stack.Screen name="SignupSuccess" component={SignupSuccessScreen} />
+        <Stack.Screen name="Login" component={LoginScreen} />
+        <Stack.Screen name="NewsFeed" component={NewsFeedScreen} />
+        <Stack.Screen name="News" component={NewsScreen} />
+      </Stack.Navigator>
+    </NavigationContainer>
   );
 }
 
-function AppContent() {
-  const safeAreaInsets = useSafeAreaInsets();
 
-  return (
-    <View style={styles.container}>
-      <NewAppScreen
-        templateFileName="App.tsx"
-        safeAreaInsets={safeAreaInsets}
-      />
-    </View>
-  );
-}
 
-const styles = StyleSheet.create({
-  container: {
-    flex: 1,
-  },
-});
+
 
 export default App;
